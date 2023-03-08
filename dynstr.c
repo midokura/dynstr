@@ -40,13 +40,13 @@ enum dynstr_err dynstr_vappend(struct dynstr *const d, const char *const format,
     {
         const size_t src_len = vsnprintf(NULL, 0, format, ap);
         const size_t new_len = d->len + src_len + 1;
+        char *const s = realloc(d->str, new_len * sizeof *d->str);
 
-        d->str = realloc(d->str, new_len * sizeof *d->str);
-
-        if (d->str)
+        if (s)
         {
-            vsprintf(d->str + d->len, format, apc);
+            vsprintf(s + d->len, format, apc);
             d->len += src_len;
+            d->str = s;
         }
         else
         {
@@ -79,25 +79,26 @@ enum dynstr_err dynstr_vprepend(struct dynstr *const d, const char *const format
     {
         const size_t src_len = vsnprintf(NULL, 0, format, ap);
         const size_t new_len = d->len + src_len + 1;
+        char *const s = realloc(d->str, new_len * sizeof *d->str);
 
-        d->str = realloc(d->str, new_len * sizeof *d->str);
-
-        if (d->str && d->len)
+        if (s && d->len)
         {
             /* Keep byte that will be removed by later call to vsprintf. */
-            const char c = *d->str;
+            const char c = *s;
 
             for (size_t i = new_len - 1, j = d->len; j <= d->len; i--, j--)
             {
-                d->str[i] = d->str[j];
+                s[i] = s[j];
             }
 
-            vsprintf(d->str, format, apc);
-            d->str[src_len] = c;
+            vsprintf(s, format, apc);
+            s[src_len] = c;
+            d->str = s;
         }
         else if (!d->len)
         {
-            vsprintf(d->str + d->len, format, apc);
+            vsprintf(s + d->len, format, apc);
+            d->str = s;
         }
         else
         {
@@ -128,12 +129,13 @@ enum dynstr_err dynstr_dup(struct dynstr *const dst, const struct dynstr *const 
         if (src->len && src->str)
         {
             const size_t sz = (src->len + 1) * sizeof *dst->str;
-            dst->str = realloc(dst->str, sz);
+            char *const s = realloc(dst->str, sz);
 
-            if (dst->str)
+            if (s)
             {
-                memcpy(dst->str, src->str, sz);
+                memcpy(s, src->str, sz);
                 dst->len = src->len;
+                dst->str = s;
             }
             else
             {
