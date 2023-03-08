@@ -27,7 +27,7 @@
 
 void dynstr_init(struct dynstr *const d)
 {
-    memset(d, 0, sizeof *d);
+    *d = (const struct dynstr){0};
 }
 
 enum dynstr_err dynstr_vappend(struct dynstr *const d, const char *const format, va_list ap)
