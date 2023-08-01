@@ -21,5 +21,8 @@ DEPS = \
 
 all: $(PROJECT)
 
+clean:
+	rm -f $(DEPS)
+
 $(PROJECT): $(DEPS)
 	$(AR) $(ARFLAGS) $@ $(DEPS)
