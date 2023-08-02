@@ -11,6 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-project(dynstr)
+project(dynstr C)
 add_library(${PROJECT_NAME} STATIC "dynstr.c")
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
