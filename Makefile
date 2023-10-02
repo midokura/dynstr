@@ -14,12 +14,21 @@
 
 .POSIX:
 
+PREFIX = /usr/local
 PROJECT = libdynstr.a
 CFLAGS = -Iinclude
 DEPS = \
 	dynstr.o
 
 all: $(PROJECT)
+
+install: $(PROJECT)
+	mkdir -p $(PREFIX)/include
+	cp include/dynstr.h $(PREFIX)/include
+	chmod 0644 $(PREFIX)/include/dynstr.h
+	mkdir -p $(PREFIX)/bin
+	cp $(PROJECT) $(PREFIX)/bin
+	chmod 0755 $(PREFIX)/bin/$(PROJECT)
 
 clean:
 	rm -f $(DEPS)
