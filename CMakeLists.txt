@@ -13,7 +13,7 @@
 # limitations under the License.
 cmake_minimum_required(VERSION 3.0)
 project(dynstr C)
-add_library(${PROJECT_NAME} STATIC "dynstr.c")
+add_library(${PROJECT_NAME} "dynstr.c")
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
 install(TARGETS ${PROJECT_NAME})
 install(DIRECTORY include/ TYPE INCLUDE)
