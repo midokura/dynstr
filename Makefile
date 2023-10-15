@@ -28,9 +28,9 @@ install: $(PROJECT) $(PC_DST)/dynstr.pc
 	mkdir -p $(PREFIX)/include
 	cp include/dynstr.h $(PREFIX)/include
 	chmod 0644 $(PREFIX)/include/dynstr.h
-	mkdir -p $(PREFIX)/bin
-	cp $(PROJECT) $(PREFIX)/bin
-	chmod 0755 $(PREFIX)/bin/$(PROJECT)
+	mkdir -p $(DST)
+	cp $(PROJECT) $(DST)
+	chmod 0755 $(DST)/$(PROJECT)
 
 clean:
 	rm -f $(DEPS)
