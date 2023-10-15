@@ -15,6 +15,8 @@
 .POSIX:
 
 PREFIX = /usr/local
+DST = $(PREFIX)/lib
+PC_DST = $(DST)/pkgconfig
 PROJECT = libdynstr.a
 CFLAGS = -Iinclude
 DEPS = \
@@ -22,7 +24,7 @@ DEPS = \
 
 all: $(PROJECT)
 
-install: $(PROJECT)
+install: $(PROJECT) $(PC_DST)/dynstr.pc
 	mkdir -p $(PREFIX)/include
 	cp include/dynstr.h $(PREFIX)/include
 	chmod 0644 $(PREFIX)/include/dynstr.h
@@ -35,3 +37,8 @@ clean:
 
 $(PROJECT): $(DEPS)
 	$(AR) $(ARFLAGS) $@ $(DEPS)
+
+$(PC_DST)/dynstr.pc: dynstr.pc
+	mkdir -p $(PC_DST)
+	sed -e 's,/usr/local,$(PREFIX),' $< > $@
+	chmod 0644 $@

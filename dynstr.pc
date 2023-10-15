@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: dynstr
+Url: https://gitea.privatedns.org/xavi/dynstr
+Description: Minimal library that provides dynamic strings using plain C99.
+Version: 0.1.0
+Cflags: -I${includedir}
+Libs: -L${libdir} -ldynstr
