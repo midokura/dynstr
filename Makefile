@@ -28,7 +28,7 @@ PROJECT_A = $(PROJECT).a
 PROJECT_SO = $(PROJECT).so.$(VERSION)
 PROJECT_SO_FQ = $(PROJECT).so.$(MAJOR_VERSION)
 PROJECT_SO_NV = $(PROJECT).so
-CFLAGS = -Iinclude -fPIC
+CFLAGS = -Iinclude -fPIC -O1
 LDFLAGS = -shared
 DEPS = \
 	dynstr.o
