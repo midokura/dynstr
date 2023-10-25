@@ -14,9 +14,11 @@
 
 .POSIX:
 
-PREFIX = /usr/local
-DST = $(PREFIX)/lib
-PC_DST = $(DST)/pkgconfig
+prefix = /usr/local
+exec_prefix = $(prefix)
+includedir = $(prefix)/include
+libdir = $(exec_prefix)/lib
+pkgcfgdir = $(libdir)/pkgconfig
 PROJECT = libdynstr
 MAJOR_VERSION = 0
 MINOR_VERSION = 1
@@ -33,15 +35,15 @@ DEPS = \
 
 all: $(PROJECT_A) $(PROJECT_SO)
 
-install: all $(PC_DST)/dynstr.pc
-	mkdir -p $(PREFIX)/include
-	cp include/dynstr.h $(PREFIX)/include
-	chmod 0644 $(PREFIX)/include/dynstr.h
-	mkdir -p $(DST)
-	cp $(PROJECT_A) $(PROJECT_SO) $(DST)
-	chmod 0755 $(DST)/$(PROJECT_A) $(DST)/$(PROJECT_SO)
-	ln -fs $(DST)/$(PROJECT_SO) $(DST)/$(PROJECT_SO_FQ)
-	ln -fs $(DST)/$(PROJECT_SO) $(DST)/$(PROJECT_SO_NV)
+install: all $(pkgcfgdir)/dynstr.pc
+	mkdir -p $(DESTDIR)$(includedir)
+	cp include/dynstr.h $(DESTDIR)$(includedir)
+	chmod 0644 $(DESTDIR)$(includedir)/dynstr.h
+	mkdir -p $(DESTDIR)$(libdir)
+	cp $(PROJECT_A) $(PROJECT_SO) $(DESTDIR)$(libdir)
+	chmod 0755 $(libdir)/$(PROJECT_A) $(DESTDIR)$(libdir)/$(PROJECT_SO)
+	ln -fs $(DESTDIR)$(libdir)/$(PROJECT_SO) $(DESTDIR)$(libdir)/$(PROJECT_SO_FQ)
+	ln -fs $(DESTDIR)$(libdir)/$(PROJECT_SO) $(DESTDIR)$(libdir)/$(PROJECT_SO_NV)
 
 clean:
 	rm -f $(DEPS)
@@ -52,7 +54,7 @@ $(PROJECT_A): $(DEPS)
 $(PROJECT_SO): $(DEPS)
 	$(CC) $(LDFLAGS) $(DEPS) -o $@
 
-$(PC_DST)/dynstr.pc: dynstr.pc
-	mkdir -p $(PC_DST)
-	sed -e 's,/usr/local,$(PREFIX),' $< > $@
+$(pkgcfgdir)/dynstr.pc: dynstr.pc
+	mkdir -p $(DESTDIR)$(pkgcfgdir)
+	sed -e 's,/usr/local,$(DESTDIR)$(prefix),' $< > $@
 	chmod 0644 $@
