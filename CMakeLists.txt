@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 cmake_minimum_required(VERSION 3.0)
-project(dynstr C 0.1.0)
+project(dynstr LANGUAGES C VERSION 0.1.0)
 add_library(${PROJECT_NAME} "dynstr.c")
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
 install(TARGETS ${PROJECT_NAME})
